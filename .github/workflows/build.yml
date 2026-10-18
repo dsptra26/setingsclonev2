@@ -13,44 +13,144 @@ jobs:
     - name: Checkout Repository
       uses: actions/checkout@v4
 
-    - name: Setup Project Structure
+    - name: Buat Proyek Xcode Standar
       run: |
+        # Buat direktori project secara bersih
         mkdir -p SettingsClone.xcodeproj
         
-        # Buat project.pbxproj yang bersih
-        echo '// !$*UTF8*$!' > SettingsClone.xcodeproj/project.pbxproj
-        echo '{ archiveVersion = 1; classes = {}; objectVersion = 56; objects = {}; rootObject = 110000010000000000000001; }' >> SettingsClone.xcodeproj/project.pbxproj
-
-        # Buat Info.plist standar
-        cat << 'EOF' > Info.plist
-        <?xml version="1.0" encoding="UTF-8"?>
-        <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-        <plist version="1.0">
-        <dict>
-            <key>CFBundleIdentifier</key>
-            <string>com.suhana.SettingsClone</string>
-            <key>CFBundleName</key>
-            <string>SettingsClone</string>
-            <key>CFBundleShortVersionString</key>
-            <string>1.0</string>
-            <key>CFBundleVersion</key>
-            <string>1</string>
-            <key>UILaunchScreen</key>
-            <dict/>
-        </dict>
-        </plist>
+        cat << 'EOF' > SettingsClone.xcodeproj/project.pbxproj
+        // !$*UTF8*$!
+        {
+            archiveVersion = 1;
+            classes = {};
+            objectVersion = 56;
+            objects = {
+                29B253101FEE397200253B3F /* Project object */ = {
+                    isa = PBXProject;
+                    buildConfigurationList = 29B253111FEE397200253B3F /* Build configuration list */;
+                    compatibilityVersion = "Xcode 14.0";
+                    developmentRegion = en;
+                    hasScannedForEncryptedFiles = 0;
+                    knownRegions = (en, Base);
+                    mainGroup = 29B2530E1FEE397200253B3F;
+                    productRefGroup = 29B2530F1FEE397200253B3F /* Products */;
+                    projectDirPath = "";
+                    projectRoot = "";
+                    targets = (29B253121FEE397200253B3F /* SettingsClone */);
+                };
+                29B2530E1FEE397200253B3F = {
+                    isa = PBXGroup;
+                    children = (
+                        E40BCC7F27A0B2C900350B4B /* ContentView.swift */,
+                        E40BCC8027A0B2C900350B4B /* Info.plist */,
+                    );
+                    sourceTree = "<group>";
+                };
+                29B2530F1FEE397200253B3F /* Products */ = {
+                    isa = PBXGroup;
+                    children = (
+                        29B253131FEE397200253B3F /* SettingsClone.app */,
+                    );
+                    sourceTree = "<group>";
+                };
+                29B253121FEE397200253B3F /* SettingsClone */ = {
+                    isa = PBXNativeTarget;
+                    buildConfigurationList = 29B253161FEE397200253B3F /* Build configuration list */;
+                    buildPhases = (
+                        29B2530A1FEE397200253B3F /* Sources */,
+                    );
+                    buildRules = ();
+                    dependencies = ();
+                    name = SettingsClone;
+                    productName = SettingsClone;
+                    productReference = 29B253131FEE397200253B3F /* SettingsClone.app */;
+                    productType = "com.apple.product-type.application";
+                };
+                29B2530A1FEE397200253B3F /* Sources */ = {
+                    isa = PBXSourcesBuildPhase;
+                    buildActionStatus = 1;
+                    buildFiles = (
+                        E40BCC8227A0B2C900350B4B /* ContentView.swift in Sources */,
+                    );
+                    runOnlyForDeploymentPostprocessing = 0;
+                };
+                29B253131FEE397200253B3F /* SettingsClone.app */ = {
+                    isa = PBXFileReference;
+                    explicitFileType = wrapper.application;
+                    includeInIndex = 0;
+                    path = SettingsClone.app;
+                    sourceTree = BUILT_PRODUCTS_DIR;
+                };
+                E40BCC7F27A0B2C900350B4B /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>";};
+                E40BCC8027A0B2C900350B4B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>";};
+                E40BCC8227A0B2C900350B4B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E40BCC7F27A0B2C900350B4B /* ContentView.swift */;};
+                29B253111FEE397200253B3F /* Build configuration list */ = {
+                    isa = PBXConfigurationList;
+                    buildConfigurations = (
+                        29B253141FEE397200253B3F /* Release */,
+                    );
+                    defaultConfigurationIsVisible = 0;
+                    defaultConfigurationName = Release;
+                };
+                29B253161FEE397200253B3F /* Build configuration list */ = {
+                    isa = PBXConfigurationList;
+                    buildConfigurations = (
+                        29B253151FEE397200253B3F /* Release */,
+                    );
+                    defaultConfigurationIsVisible = 0;
+                    defaultConfigurationName = Release;
+                };
+                29B253141FEE397200253B3F /* Release */ = {
+                    isa = XCBuildConfiguration;
+                    buildSettings = {
+                        ALWAYS_SEARCH_USER_PATHS = NO;
+                        CLANG_ENABLE_MODULES = YES;
+                        CODE_SIGN_IDENTITY = "";
+                        CODE_SIGNING_REQUIRED = NO;
+                        COPY_PHASE_STRIP = NO;
+                        INFOPLIST_FILE = Info.plist;
+                        IPHONEOS_DEPLOYMENT_TARGET = "16.0";
+                        PRODUCT_BUNDLE_IDENTIFIER = com.suhana.SettingsClone;
+                        PRODUCT_NAME = "$(TARGET_NAME)";
+                        SDKROOT = iphoneos;
+                        SWIFT_VERSION = "5.0";
+                        TARGETED_DEVICE_FAMILY = "1";
+                    };
+                    name = Release;
+                };
+                29B253151FEE397200253B3F /* Release */ = {
+                    isa = XCBuildConfiguration;
+                    buildSettings = {
+                        CODE_SIGN_IDENTITY = "";
+                        CODE_SIGNING_REQUIRED = NO;
+                        INFOPLIST_FILE = Info.plist;
+                        PRODUCT_BUNDLE_IDENTIFIER = com.suhana.SettingsClone;
+                        PRODUCT_NAME = "$(TARGET_NAME)";
+                        SWIFT_VERSION = "5.0";
+                    };
+                    name = Release;
+                };
+            };
+            rootObject = 29B253101FEE397200253B3F /* Project object */;
+        }
         EOF
 
-    - name: Build App with Swift Compiler
+    - name: Build App with Xcodebuild
       run: |
-        swiftc -parse-as-library ContentView.swift -o SettingsClone -sdk $(xcrun --sdk iphoneos --show-sdk-path) -target arm64-apple-ios16.0 -framework SwiftUI -framework UIKit
+        xcodebuild -project SettingsClone.xcodeproj \
+          -scheme SettingsClone \
+          -configuration Release \
+          -sdk iphoneos \
+          -derivedDataPath build \
+          CODE_SIGNING_ALLOWED=NO \
+          CODE_SIGNING_REQUIRED=NO \
+          CODE_SIGN_IDENTITY="" \
+          COMPILER_INDEX_STORE_ENABLE=NO
 
     - name: Package App into IPA
       run: |
-        mkdir -p Payload/SettingsClone.app
-        # Jika menggunakan swiftc langsung, kita bungkus output binernya
-        mv SettingsClone Payload/SettingsClone.app/SettingsClone
-        cp Info.plist Payload/SettingsClone.app/Info.plist
+        mkdir -p Payload
+        cp -r build/Build/Products/Release-iphoneos/SettingsClone.app Payload/
         zip -r SettingsClone.ipa Payload
 
     - name: Upload IPA Artifact
