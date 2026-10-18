@@ -1,0 +1,121 @@
+name: Build Settings Clone IPA
+
+on:
+  push:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: macos-14
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v4
+
+    - name: Buat Struktur Proyek Otomatis
+      run: |
+        mkdir -p SettingsClone.xcodeproj
+        cat << 'EOF' > SettingsClone.xcodeproj/project.pbxproj
+        // !$*UTF8*$!
+        {
+            archiveVersion = 1;
+            classes = {};
+            objectVersion = 56;
+            objects = {
+                110000010000000000000001 /* (Root) */ = {
+                    isa = PBXProject;
+                    buildConfigurationList = 110000040000000000000004 /* Build configuration list */;
+                    compatibilityVersion = "Xcode 14.0";
+                    developmentRegion = en;
+                    hasScannedForEncryptedFiles = 0;
+                    knownRegions = (en, Base);
+                    mainGroup = 110000020000000000000002 /* Main Group */;
+                    productRefGroup = 110000030000000000000003 /* Products */;
+                    projectDirPath = "";
+                    projectRoot = "";
+                    targets = (110000050000000000000005 /* SettingsClone */);
+                };
+                110000020000000000000002 /* Main Group */ = {
+                    isa = PBXGroup;
+                    children = (110000060000000000000006 /* ContentView.swift */, 110000070000000000000007 /* Info.plist */);
+                    sourceTree = "<group>";
+                };
+                110000030000000000000003 /* Products */ = {
+                    isa = PBXGroup;
+                    children = (110000080000000000000008 /* SettingsClone.app */);
+                    sourceTree = "<group>";
+                };
+                110000040000000000000004 /* Build configuration list */ = {
+                    isa = PBXConfigurationList;
+                    buildConfigurations = (110000090000000000000009 /* Release */);
+                    defaultConfigurationIsVisible = 0;
+                    defaultConfigurationName = Release;
+                };
+                110000050000000000000005 /* SettingsClone */ = {
+                    isa = PBXNativeTarget;
+                    buildConfigurationList = 110000100000000000000010 /* Build configuration list */;
+                    buildPhases = (110000110000000000000011 /* Sources */);
+                    buildRules = ();
+                    dependencies = ();
+                    name = SettingsClone;
+                    productName = SettingsClone;
+                    productReference = 110000080000000000000008 /* SettingsClone.app */;
+                    productType = "com.apple.product-type.application";
+                };
+                110000060000000000000006 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>";};
+                110000070000000000000007 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>";};
+                110000080000000000000008 /* SettingsClone.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SettingsClone.app; sourceTree = BUILT_PRODUCTS_DIR;};
+                110000090000000000000009 /* Release */ = {
+                    isa = PBXBuildStyle;
+                };
+                110000100000000000000010 /* Build configuration list */ = {
+                    isa = PBXConfigurationList;
+                    buildConfigurations = (110000120000000000000012 /* Release */);
+                    defaultConfigurationIsVisible = 0;
+                    defaultConfigurationName = Release;
+                };
+                110000110000000000000011 /* Sources */ = {
+                    isa = PBXSourcesBuildPhase;
+                    buildActionStatus = 1;
+                    buildFiles = (110000130000000000000013 /* ContentView.swift in Sources */);
+                };
+                110000120000000000000012 /* Release */ = {
+                    isa = XCBuildConfiguration;
+                    buildSettings = {
+                        INFOPLIST_FILE = Info.plist;
+                        PRODUCT_BUNDLE_IDENTIFIER = com.suhana.SettingsClone;
+                        PRODUCT_NAME = "$(TARGET_NAME)";
+                        SWIFT_VERSION = "5.0";
+                        TARGETED_DEVICE_FAMILY = "1";
+                    };
+                    name = Release;
+                };
+                110000130000000000000013 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 110000060000000000000006 /* ContentView.swift */;};
+            };
+            rootObject = 110000010000000000000001 /* (Root) */;
+        }
+        EOF
+    - name: Build App with Xcodebuild
+      run: |
+        xcodebuild -project SettingsClone.xcodeproj \
+          -scheme SettingsClone \
+          -configuration Release \
+          -sdk iphoneos \
+          -derivedDataPath build \
+          CODE_SIGNING_ALLOWED=NO \
+          CODE_SIGNING_REQUIRED=NO \
+          CODE_SIGN_IDENTITY="" \
+          COMPILER_INDEX_STORE_ENABLE=NO
+
+    - name: Package App into IPA
+      run: |
+        mkdir -p Payload
+        cp -r build/Build/Products/Release-iphoneos/SettingsClone.app Payload/
+        zip -r SettingsClone.ipa Payload
+
+    - name: Upload IPA Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: SettingsClone-IPA
+        path: SettingsClone.ipa
