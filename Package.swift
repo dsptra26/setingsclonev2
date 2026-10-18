@@ -7,13 +7,15 @@ let package = Package(
         .iOS(.v16)
     ],
     products: [
-        .library(
+        .executable(
             name: "SettingsClone",
-            targets: ["SettingsClone"]),
+            targets: ["SettingsClone"]
+        ),
     ],
     targets: [
-        .target(
+        .executableTarget(
             name: "SettingsClone",
-            path: "Sources/SettingsClone")
+            path: "Sources/SettingsClone"
+        )
     ]
 )
