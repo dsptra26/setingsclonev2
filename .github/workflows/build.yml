@@ -1,0 +1,51 @@
+name: Build Settings Clone IPA
+
+on:
+  push:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: macos-14
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v4
+
+    - name: Build Swift Package App
+      run: |
+        swift build -c release --arch arm64 --sdk $(xcrun --sdk iphoneos --show-sdk-path)
+
+    - name: Package App into IPA
+      run: |
+        mkdir -p Payload/SettingsClone.app
+        cp .build/arm64-apple-ios/release/SettingsClone Payload/SettingsClone.app/SettingsClone
+        
+        # Buat Info.plist otomatis di dalam app bundle
+        cat << 'EOF' > Payload/SettingsClone.app/Info.plist
+        <?xml version="1.0" encoding="UTF-8"?>
+        <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+        <plist version="1.0">
+        <dict>
+            <key>CFBundleIdentifier</key>
+            <string>com.suhana.SettingsClone</string>
+            <key>CFBundleName</key>
+            <string>SettingsClone</string>
+            <key>CFBundleShortVersionString</key>
+            <string>1.0</string>
+            <key>CFBundleVersion</key>
+            <string>1</string>
+            <key>UILaunchScreen</key>
+            <dict/>
+        </dict>
+        </plist>
+        EOF
+
+        zip -r SettingsClone.ipa Payload
+
+    - name: Upload IPA Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: SettingsClone-IPA
+        path: SettingsClone.ipa
